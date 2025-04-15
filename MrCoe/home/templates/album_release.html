@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ album }}—{{ artist }}{% endblock %}
+
+{% block content %}
+    <img src="{% static cover %}" class="img-fluid rounded shadow-lg mb-4" alt="Album Cover" style="max-width: 300px;">
+    
+    <h1>{{ album }}</h1>
+
+    <p class="lead"><strong>{{ release_date }}</strong></p>
+
+    <div class="d-flex justify-content-center mt-4">
+        <a href="{{ stream_links.spotify }}" class="btn btn-success btn-lg border-3 border" target="_blank">Spotify Pre-Save</a>
+        <br/>
+    </div>
+{% endblock %}
