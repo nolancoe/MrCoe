@@ -7,7 +7,7 @@ def album_release(request):
         "release_date": "5/2/25",
         "stream_links": {
             "spotify": "https://distrokid.com/hyperfollow/nolancoe/mr-coe",
-            "apple_music": "https://music.apple.com/us/artisst/nolan-coe/1508830093",
+            "apple_music": "https://music.apple.com/us/album/mr-coe/1806035098?uo=4",
         },
         "cover": "images/cover.png"
     }

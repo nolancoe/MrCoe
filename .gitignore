@@ -7,16 +7,10 @@ __pycache__/
 *.pyd
 *.sqlite3
 *.log
-
-# Virtual env
-virt/
+*.pyc
 
 # Django
 db.sqlite3
-
-# VSCode/PyCharm
-.vscode/
-.idea/
 
 # Env
 .env
@@ -24,3 +18,13 @@ db.sqlite3
 # Migrations
 **/migrations/*.pyc
 **/migrations/__pycache__/
+
+# Virtual environments
+venv/
+virt/
+
+
+# IDEs & OS
+.idea/
+.vscode/
+.DS_Store
