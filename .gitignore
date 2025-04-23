@@ -28,3 +28,7 @@ virt/
 .idea/
 .vscode/
 .DS_Store
+
+# Logging
+/var/log/
+/*.log

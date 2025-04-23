@@ -125,3 +125,31 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'default': {
+            'format': '[{asctime}] {levelname} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'honeypot_file': {
+            'level': 'WARNING',
+            'class': 'logging.FileHandler',
+            'filename': '/var/log/django/honeypot.log',
+            'formatter': 'default',
+        },
+    },
+    'loggers': {
+        'honeypot': {
+            'handlers': ['honeypot_file'],
+            'level': 'WARNING',
+            'propagate': False,
+        },
+    },
+}

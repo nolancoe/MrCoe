@@ -1,3 +1,8 @@
 from django.contrib import admin
+from .models import HoneypotHit
 
-# Register your models here.
+@admin.register(HoneypotHit)
+class HoneypotHitAdmin(admin.ModelAdmin):
+    list_display = ("ip", "method", "path", "timestamp", "count")
+    search_fields = ("ip", "user_agent")
+    list_filter = ("method", "timestamp")
