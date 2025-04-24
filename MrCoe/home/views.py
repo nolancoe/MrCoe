@@ -6,11 +6,11 @@ import json
 import logging
 import requests
 from django.views.decorators.csrf import csrf_exempt
+from decouple import config
 
 logger = logging.getLogger("honeypot")
 
-DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1364951239678234735/DgHFryJ1IJiWpTk8iU2DGNVwFZB7eWKUdHcDXU7v_8ByE07j1GIyoOsB_it9scXsX6x2"
-
+DISCORD_WEBHOOK_URL = config("DISCORD_WEBHOOK_URL")
 def album_release(request):
     context = {
         "artist": "Nolan Coe",
