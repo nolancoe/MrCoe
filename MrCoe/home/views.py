@@ -34,14 +34,7 @@ def honeypot(request):
     headers = json.dumps({k: v for k, v in request.META.items() if k.startswith("HTTP_")}, indent=2)
 
     # Log or update hit count
-    existing = HoneypotHit.objects.filter(ip=ip).order_by("-timestamp").first()
-
-    if existing and (now() - existing.timestamp).seconds < 600:
-        existing.count += 1
-        existing.timestamp = now()
-        existing.save()
-    else:
-        HoneypotHit.objects.create(ip=ip, user_agent=ua, method=method, path=path, headers=headers)
+    HoneypotHit.objects.create(ip=ip, user_agent=ua, method=method, path=path, headers=headers)
 
     logger.warning(f"HONEYPOT HIT: IP={ip} | UA={ua} | METHOD={method} | PATH={path}")
 
