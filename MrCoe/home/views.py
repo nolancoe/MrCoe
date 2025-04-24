@@ -4,8 +4,12 @@ from .models import HoneypotHit, HoneypotCredential
 from django.utils.timezone import now
 import json
 import logging
+import requests
 from django.views.decorators.csrf import csrf_exempt
 
+logger = logging.getLogger("honeypot")
+
+DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1364951239678234735/DgHFryJ1IJiWpTk8iU2DGNVwFZB7eWKUdHcDXU7v_8ByE07j1GIyoOsB_it9scXsX6x2"
 
 def album_release(request):
     context = {
@@ -23,7 +27,11 @@ def album_release(request):
 def get_client_ip(request):
     return request.META.get('HTTP_X_FORWARDED_FOR') or request.META.get('REMOTE_ADDR')
 
-logger = logging.getLogger("honeypot")
+def send_discord_alert(content):
+    try:
+        requests.post(DISCORD_WEBHOOK_URL, json={"content": content}, timeout=5)
+    except Exception as e:
+        logger.warning(f"Failed to send Discord alert: {e}")
 
 @csrf_exempt
 def honeypot(request):
@@ -33,15 +41,19 @@ def honeypot(request):
     path = request.path
     headers = json.dumps({k: v for k, v in request.META.items() if k.startswith("HTTP_")}, indent=2)
 
-    # Log every request to HoneypotHit
+    # Save to DB
     HoneypotHit.objects.create(ip=ip, user_agent=ua, method=method, path=path, headers=headers)
 
+    # Log to file
     logger.warning(f"HONEYPOT HIT: IP={ip} | UA={ua} | METHOD={method} | PATH={path}")
 
-    # If it's a POST attempt to log in, trap credentials too
+    # Alert to Discord
+    send_discord_alert(f"🚨 Honeypot hit!\nIP: `{ip}`\nPath: `{path}`\nMethod: `{method}`\nUA: `{ua}`")
+
     if method == "POST":
         username = request.POST.get("username", "").strip()[:255]
         password = request.POST.get("password", "").strip()
+
         logger.warning(f"HONEYPOT CREDENTIAL ATTEMPT: IP={ip} | USERNAME={username} | PASSWORD={password}")
 
         HoneypotCredential.objects.create(
@@ -50,5 +62,8 @@ def honeypot(request):
             username=username,
             password=password
         )
+
+        # Discord alert for login attempt
+        send_discord_alert(f"🕵️ Credential bait!\nIP: `{ip}`\nUsername: `{username}`\nPassword: `{password}`")
 
     return render(request, "honeypot/fake_login.html")
