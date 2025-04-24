@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import HoneypotHit
+from .models import HoneypotHit, HoneypotCredential
 from django.utils.timezone import now
 import json
 import logging
@@ -33,9 +33,22 @@ def honeypot(request):
     path = request.path
     headers = json.dumps({k: v for k, v in request.META.items() if k.startswith("HTTP_")}, indent=2)
 
-    # Log or update hit count
+    # Log every request to HoneypotHit
     HoneypotHit.objects.create(ip=ip, user_agent=ua, method=method, path=path, headers=headers)
 
     logger.warning(f"HONEYPOT HIT: IP={ip} | UA={ua} | METHOD={method} | PATH={path}")
 
-    return HttpResponse("<h1>404 Not Found</h1>", status=404)
+    # If it's a POST attempt to log in, trap credentials too
+    if method == "POST":
+        username = request.POST.get("username", "").strip()[:255]
+        password = request.POST.get("password", "").strip()
+        logger.warning(f"HONEYPOT CREDENTIAL ATTEMPT: IP={ip} | USERNAME={username} | PASSWORD={password}")
+
+        HoneypotCredential.objects.create(
+            ip=ip,
+            user_agent=ua,
+            username=username,
+            password=password
+        )
+
+    return render(request, "honeypot/fake_login.html")
