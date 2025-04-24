@@ -22,7 +22,7 @@ urlpatterns = [
     re_path(r"^wp-content/.*", honeypot),
     re_path(r"^wp-includes/.*", honeypot),
     re_path(r"^wp-.*", honeypot),
-    re_path(r".*\.php$", honeypot),
+    re_path(r'^.*\.php$', honeypot),
     re_path(r".*\.aspx$", honeypot),
 
     # WordPress plugin/theme crawlers
@@ -32,7 +32,7 @@ urlpatterns = [
     # Laravel attackers
     re_path(r'^storage/logs/.*', honeypot),
     re_path(r'^vendor/.*', honeypot),
-    re_path(r'^\.env.*', honeypot),
+    re_path(r'^.*\.env.*$', honeypot),
 
     # Node.js & Express.js
     re_path(r'^api/.*', honeypot),
@@ -48,7 +48,7 @@ urlpatterns = [
     re_path(r'^test/.*', honeypot),
     re_path(r'^dev/.*', honeypot),
     re_path(r'^debug/.*', honeypot),
-    re_path(r'^\.git/.*', honeypot),
+    re_path(r'^.*/\.git/.*$', honeypot),
     re_path(r'^\.DS_Store$', honeypot),
 
     # Login panels & control panels
