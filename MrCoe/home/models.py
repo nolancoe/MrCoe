@@ -11,3 +11,13 @@ class HoneypotHit(models.Model):
 
     def __str__(self):
         return f"{self.ip} at {self.timestamp}"
+    
+class HoneypotCredential(models.Model):
+    ip = models.GenericIPAddressField()
+    user_agent = models.TextField(blank=True)
+    username = models.CharField(max_length=255)
+    password = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.ip} - {self.username} at {self.timestamp}"
