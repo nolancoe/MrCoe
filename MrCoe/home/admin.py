@@ -4,7 +4,7 @@ from .models import HoneypotHit, HoneypotCredential
 @admin.register(HoneypotHit)
 class HoneypotHitAdmin(admin.ModelAdmin):
     list_display = ("ip", "method", "path", "timestamp", "count")
-    search_fields = ("ip", "user_agent")
+    search_fields = ("ip", "user_agent", "path")
     list_filter = ("method", "timestamp")
 
 @admin.register(HoneypotCredential)
