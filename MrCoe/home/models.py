@@ -21,3 +21,13 @@ class HoneypotCredential(models.Model):
 
     def __str__(self):
         return f"{self.ip} - {self.username} at {self.timestamp}"
+    
+class BannedIP(models.Model):
+    ip = models.GenericIPAddressField(unique=True)
+    jail = models.CharField(max_length=100)
+    banned_at = models.DateTimeField(auto_now_add=True)
+    location = models.CharField(max_length=255, blank=True)
+    org = models.CharField(max_length=255, blank=True)
+
+    def __str__(self):
+        return f"{self.ip} banned by {self.jail} at {self.banned_at}"

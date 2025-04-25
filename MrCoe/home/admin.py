@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import HoneypotHit, HoneypotCredential
+from .models import HoneypotHit, HoneypotCredential, BannedIP
 
 @admin.register(HoneypotHit)
 class HoneypotHitAdmin(admin.ModelAdmin):
@@ -17,3 +17,9 @@ class HoneypotCredentialAdmin(admin.ModelAdmin):
     def truncated_password(self, obj):
         return (obj.password[:30] + '...') if len(obj.password) > 30 else obj.password
     truncated_password.short_description = "Password"
+
+
+@admin.register(BannedIP)
+class BannedIPAdmin(admin.ModelAdmin):
+    list_display = ('ip', 'jail', 'banned_at', 'location', 'org')
+    search_fields = ('ip', 'jail', 'location','banned_at', 'org')
