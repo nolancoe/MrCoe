@@ -25,7 +25,11 @@ def album_release(request):
     return render(request, "album_release.html", context)
 
 def get_client_ip(request):
-    return request.META.get('HTTP_X_FORWARDED_FOR') or request.META.get('REMOTE_ADDR')
+    x_forwarded_for = request.META.get("HTTP_X_FORWARDED_FOR")
+    if x_forwarded_for:
+        # Use the last IP in the list (the real client)
+        return x_forwarded_for.split(",")[-1].strip()
+    return request.META.get("REMOTE_ADDR")
 
 def send_discord_alert(content):
     try:
