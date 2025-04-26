@@ -1,8 +1,9 @@
 from django.urls import path, re_path
-from .views import album_release, honeypot
+from .views import album_release, honeypot, ban_ip_report
 
 urlpatterns = [
     path('', album_release, name='album-release'),
+    path('ban_ip_report/', ban_ip_report, name='ban_ip_report'),
 
     path("cpanel", honeypot),
     path("admin-login", honeypot),
