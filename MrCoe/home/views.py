@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import HoneypotHit, HoneypotCredential
+from .models import HoneypotHit, HoneypotCredential, BannedIP
 from django.utils.timezone import now
 import json
 import logging
@@ -71,3 +71,31 @@ def honeypot(request):
         send_discord_alert(f"🕵️ Credential bait!\nIP: `{ip}`\nUsername: `{username}`\nPassword: `{password}`")
 
     return render(request, "honeypot/fake_login.html")
+
+
+@csrf_exempt
+def ban_ip_report(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            ip = data.get("ip")
+            jail = data.get("jail", "unknown")
+            location = data.get("location", "")
+            org = data.get("org", "")
+
+            if ip:
+                BannedIP.objects.get_or_create(
+                    ip=ip,
+                    defaults={
+                        "jail": jail,
+                        "location": location,
+                        "org": org,
+                    }
+                )
+                return HttpResponse("Ban recorded", status=201)
+            else:
+                return HttpResponse("IP missing", status=400)
+        except Exception as e:
+            logger.error(f"Failed to record banned IP: {e}")
+            return HttpResponse("Error", status=500)
+    return HttpResponse("Method Not Allowed", status=405)
