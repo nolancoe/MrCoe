@@ -2,15 +2,26 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Admin Login</title>
+  <title>Admin Control Panel - Secure Login</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="/static/css/admin.css">
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      console.log("Admin login form loaded successfully");
+    });
+  </script>
 </head>
 <body>
-  <h2>Restricted Admin Access</h2>
-  <form method="post">
-    <input type="hidden" name="form_id" value="admin_login_2025">
-    <input type="text" name="username" placeholder="Admin Username" required><br><br>
-    <input type="password" name="password" placeholder="Admin Password" required><br><br>
-    <button type="submit">Log In</button>
-  </form>
+  <div id="admin-login-container">
+    <h1>Welcome Back</h1>
+    <form method="post" action="/login/validate/">
+      <input type="hidden" name="csrfmiddlewaretoken" value="d41d8cd98f00b204e9800998ecf8427e">
+      <input type="text" name="username" placeholder="Username" required><br><br>
+      <input type="password" name="password" placeholder="Password" required><br><br>
+      <button type="submit">Sign In</button>
+    </form>
+    <a href="/password-reset-honeypot/">Forgot Password?</a><br>
+    <p>Need help? Contact support.</p>
+  </div>
 </body>
 </html>
