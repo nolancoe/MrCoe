@@ -64,7 +64,7 @@
 
     {% block head %}{% endblock %}
 </head>
-<body class="text-light text-center">
+<body class="text-light text-center d-flex flex-column justify-content-center align-items-center min-vh-100">
 
 
     <!-- ✅ Background image fallback (always there behind everything) -->
@@ -86,14 +86,14 @@
 
     </br>
     <!-- Footer -->
-    <footer class="text-center mt-5">
-        <a href="https://www.youtube.com/@NolanCoe" target="_blank" class="text-light fs-3 mx-3 d-inline-block">
-            <i class="fab fa-youtube"></i>
-        </a>
-        <a href="https://x.com/nolancoe" target="_blank" class="text-light fs-3 mx-3 d-inline-block">
-            <i class="fab fa-x-twitter"></i>
-        </a>
-    </footer>
+<footer class="text-center mt-5" style="position: relative; z-index: 5;">
+    <a href="https://www.youtube.com/@NolanCoe" target="_blank" class="text-light fs-3 mx-3 d-inline-block">
+        <i class="fab fa-youtube"></i>
+    </a>
+    <a href="https://x.com/nolancoe" target="_blank" class="text-light fs-3 mx-3 d-inline-block">
+        <i class="fab fa-x-twitter"></i>
+    </a>
+</footer>
 
     <script>
     document.addEventListener('DOMContentLoaded', function () {
