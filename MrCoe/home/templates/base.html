@@ -57,6 +57,18 @@
             background: rgba(0, 0, 0, 0.5); /* semi-transparent */
             z-index: 1;
         }
+
+        <style>
+            footer a {
+                transition: transform 0.2s ease;
+            }
+        
+            footer a:hover {
+                transform: scale(1.2);
+            }
+        </style>
+        
+
     </style>
 
     {% block head %}{% endblock %}
@@ -87,7 +99,20 @@
         <a href="https://www.youtube.com/@NolanCoe" target="_blank" class="text-light fs-3">
             <i class="fab fa-youtube"></i>
         </a>
+        <a href="https://x.com/nolancoe" target="_blank" class="text-light fs-3">
+            <i class="fa-brands fa-x-twitter"></i>
+        </a>
     </footer>
+    <script>
+        document.querySelectorAll('footer a i').forEach(icon => {
+            icon.parentElement.addEventListener('mouseenter', () => {
+                icon.classList.add('fa-beat-fade');
+            });
+            icon.parentElement.addEventListener('mouseleave', () => {
+                icon.classList.remove('fa-beat-fade');
+            });
+        });
+    </script>
 </br></br></br>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
