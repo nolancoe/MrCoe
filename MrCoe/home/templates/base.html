@@ -80,39 +80,47 @@
         }
     
         /* 🎯 Range Input Styling (cross-browser + iOS-safe) */
-        input[type="range"] {
+        input[type="range"],
+        input[type="range"].form-range {
             -webkit-appearance: none;
+            appearance: none;
+            background: transparent;
             width: 100%;
             height: 5px;
-            background: transparent;
             cursor: pointer;
+            accent-color: transparent; /* remove iOS blue */
+            margin: 0;
+            padding: 0;
         }
-    
+
         /* WebKit track */
         input[type="range"]::-webkit-slider-runnable-track {
             height: 5px;
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.3);
             border-radius: 2px;
         }
-    
+
         input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
+            appearance: none;
+            margin-top: -4.5px;
             height: 14px;
             width: 14px;
             border-radius: 50%;
             background: #0dcaf0;
             border: 2px solid white;
-            margin-top: -4.5px; /* vertical alignment */
             box-shadow: 0 0 5px #0dcaf0;
+            position: relative;
+            z-index: 2;
         }
-    
-        /* Firefox track */
+
+        /* Firefox */
         input[type="range"]::-moz-range-track {
             height: 5px;
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.3);
             border-radius: 2px;
         }
-    
+
         input[type="range"]::-moz-range-thumb {
             height: 14px;
             width: 14px;
@@ -120,6 +128,11 @@
             background: #0dcaf0;
             border: 2px solid white;
             box-shadow: 0 0 5px #0dcaf0;
+        }
+
+        /* Focus (remove glowing blue outline on iOS) */
+        input[type="range"]:focus {
+            outline: none;
         }
     
         /* Track Row Hover */
