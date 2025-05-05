@@ -59,102 +59,38 @@
         .custom-player {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(6px);
             border-radius: 1rem;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-            transition: background 0.3s ease, box-shadow 0.3s ease;
-        }
-    
-        .custom-player:hover {
-            background: rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.5);
-        }
-    
-        .play-btn i {
-            font-size: 16px;
-            transition: transform 0.2s ease;
-        }
-    
-        .play-btn:hover i {
-            transform: scale(1.2);
-        }
-    
-        input[type="range"] {
-            -webkit-appearance: none;
-            appearance: none;
-            background: transparent;
+            padding: 1rem;
+            max-width: 500px;
+            margin: 2rem auto;
+          }
+      
+          .play-btn i {
+            font-size: 20px;
+          }
+      
+          input[type="range"] {
             width: 100%;
+            background: rgba(255, 255, 255, 0.3);
             height: 5px;
-            cursor: pointer;
-            margin: 0;
-            padding: 0;
-            background-color: rgba(255, 255, 255, 0.3); /* ✅ BACKUP BACKGROUND */
-        }
-        
-        /* ✅ WebKit (iOS Safari & Chrome) */
-        input[type="range"]::-webkit-slider-runnable-track {
-            height: 5px;
-            background: rgba(255, 255, 255, 0.3); /* ✅ ENSURES VISIBLE TRACK */
-            border-radius: 2px;
-        }
-        
-        input[type="range"]::-webkit-slider-thumb {
+          }
+      
+          input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
             height: 14px;
             width: 14px;
-            margin-top: -4.5px;
             border-radius: 50%;
             background: #0dcaf0;
             border: 2px solid white;
-            box-shadow: 0 0 5px #0dcaf0;
-            position: relative;
-            z-index: 2;
-        }
-        
-        /* ✅ Firefox */
-        input[type="range"]::-moz-range-track {
-            height: 5px;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 2px;
-        }
-        
-        input[type="range"]::-moz-range-thumb {
+          }
+      
+          input[type="range"]::-moz-range-thumb {
             height: 14px;
             width: 14px;
             border-radius: 50%;
             background: #0dcaf0;
             border: 2px solid white;
-            box-shadow: 0 0 5px #0dcaf0;
-        }
-        
-        /* ✅ Remove iOS blue glow */
-        input[type="range"]:focus {
-            outline: none;
-            box-shadow: none;
-        }
-    
-        /* Track Row Hover */
-        .track-row {
-            transition: background 0.3s ease, transform 0.2s ease;
-            cursor: pointer;
-        }
-    
-        .track-row:hover {
-            background: rgba(255, 255, 255, 0.05);
-            transform: scale(1.01);
-        }
-    
-        .track-row.bg-secondary {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 0.5rem;
-            padding: 0.5rem;
-        }
-    
-        .card-body a i:hover {
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
-            transform: scale(1.1);
-            transition: all 0.2s ease-in-out;
-        }
+          }
     
     </style>
 
