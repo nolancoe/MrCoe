@@ -14,7 +14,7 @@
 
 
     <!-- ✅ Open Graph Tags (Facebook, LinkedIn, etc.) -->
-    <meta property="og:title" content="Presave My New Album">
+    <meta property="og:title" content="New Album 'Mr. Coe' Out Now!">
     <meta property="og:description" content="'{{ album }}' releasing {{ release_date }}.">
     <meta property="og:image" content="https://nolancoe.com{% static cover %}">
     <meta property="og:url" content="https://nolancoe.com">
@@ -58,7 +58,73 @@
             z-index: 1;
         }
 
+        .custom-player {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(6px);
+            border-radius: 1rem;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+            transition: background 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .custom-player:hover {
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.5);
+        }
+
+        .play-btn i {
+            font-size: 16px;
+            transition: transform 0.2s ease;
+        }
+
+        .play-btn:hover i {
+            transform: scale(1.2);
+        }
+
+        .form-range {
+            height: 5px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 2px;
+            appearance: none;
+            transition: background-color 0.2s ease;
+        }
+
+        .form-range::-webkit-slider-thumb,
+        .form-range::-moz-range-thumb {
+            height: 14px;
+            width: 14px;
+            border-radius: 50%;
+            background: #0dcaf0;
+            border: 2px solid white;
+            box-shadow: 0 0 5px #0dcaf0;
+            cursor: pointer;
+        }
+
+        .form-range::-webkit-slider-runnable-track {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .track-row {
+            transition: background 0.3s ease, transform 0.2s ease;
+            cursor: pointer;
+        }
         
+        .track-row:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: scale(1.01);
+        }
+
+        .track-row.bg-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 0.5rem;
+            padding: 0.5rem;
+        }
+
+        .card-body a i:hover {
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+            transform: scale(1.1);
+            transition: all 0.2s ease-in-out;
+        }
 
     </style>
 
@@ -104,16 +170,82 @@
 </footer>
 
     <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        document.querySelectorAll('footer a i').forEach(icon => {
-            icon.parentElement.addEventListener('mouseenter', () => {
-                icon.classList.add('fa-beat-fade');
-            });
-            icon.parentElement.addEventListener('mouseleave', () => {
-                icon.classList.remove('fa-beat-fade');
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('footer a i').forEach(icon => {
+                icon.parentElement.addEventListener('mouseenter', () => {
+                    icon.classList.add('fa-beat-fade');
+                });
+                icon.parentElement.addEventListener('mouseleave', () => {
+                    icon.classList.remove('fa-beat-fade');
+                });
             });
         });
-    });
+        </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const audio = document.getElementById('global-audio');
+            const playBtn = document.getElementById('global-play-btn');
+            const icon = playBtn.querySelector('i');
+            const range = document.getElementById('global-progress');
+            const time = document.getElementById('global-time');
+            let currentTrackSrc = '';
+            let isPlaying = false;
+        
+            // Track selection logic
+            document.querySelectorAll('.track-row').forEach(row => {
+                row.addEventListener('click', () => {
+                    const newSrc = row.getAttribute('data-src');
+        
+                    if (newSrc !== currentTrackSrc) {
+                        audio.src = newSrc;
+                        currentTrackSrc = newSrc;
+                        audio.play();
+                        isPlaying = true;
+                        icon.classList.replace('fa-play', 'fa-pause');
+        
+                        document.querySelectorAll('.track-row').forEach(r => r.classList.remove('bg-secondary'));
+                        row.classList.add('bg-secondary'); // visually indicate selected track
+                    }
+                });
+            });
+        
+            playBtn.addEventListener('click', () => {
+                if (!currentTrackSrc) return;
+        
+                if (audio.paused) {
+                    audio.play();
+                    icon.classList.replace('fa-play', 'fa-pause');
+                    isPlaying = true;
+                } else {
+                    audio.pause();
+                    icon.classList.replace('fa-pause', 'fa-play');
+                    isPlaying = false;
+                }
+            });
+        
+            audio.addEventListener('timeupdate', () => {
+                const current = Math.floor(audio.currentTime);
+                const duration = Math.floor(audio.duration || 0);
+                range.max = duration;
+                range.value = current;
+                time.textContent = formatTime(current);
+            });
+        
+            range.addEventListener('input', () => {
+                audio.currentTime = range.value;
+            });
+        
+            audio.addEventListener('ended', () => {
+                icon.classList.replace('fa-pause', 'fa-play');
+                isPlaying = false;
+            });
+        
+            function formatTime(seconds) {
+                const mins = Math.floor(seconds / 60);
+                const secs = seconds % 60;
+                return `${mins}:${secs.toString().padStart(2, '0')}`;
+            }
+        });
     </script>
     </br></br></br>
 

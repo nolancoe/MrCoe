@@ -12,18 +12,32 @@ logger = logging.getLogger("honeypot")
 
 DISCORD_WEBHOOK_URL = config("DISCORD_WEBHOOK_URL")
 def album_release(request):
+    tracks = [
+        {'title': 'Makeshift Spaceship', 'file': 'audio/Makeshift Spaceship.mp3'},
+        {'title': 'Setbacks', 'file': 'audio/Setbacks.mp3'},
+        {'title': 'On Your Mark', 'file': 'audio/On Your Mark.mp3'},
+        {'title': 'Pantomime', 'file': 'audio/Pantomime.mp3'},
+        {'title': 'Debts', 'file': 'audio/Debts.mp3'},
+        {'title': 'Production Destruction', 'file': 'audio/Production Destruction.mp3'},
+        {'title': 'On a Mission', 'file': 'audio/On a Mission.mp3'},
+        {'title': 'Heart Of The Cards', 'file': 'audio/Heart Of The Cards.mp3'},
+        {'title': 'Matties Hole', 'file': 'audio/Matties Hole.mp3'},
+    ]
+
     context = {
         "artist": "Nolan Coe",
         "album": "Mr. Coe",
         "release_date": "5/2/25",
+        "cover": "images/cover.png",
+        "tracks": tracks,
         "stream_links": {
             "spotify": "https://open.spotify.com/album/02aTyTzRmRrU5SOQj6VLgQ",
             "apple_music": "https://music.apple.com/us/album/mr-coe/1806035098?uo=4",
             "youtube_music": "https://www.youtube.com/channel/UCau3XdjSRSJXlH2RuIwbzyQ",
             "distrokid": "https://distrokid.com/hyperfollow/nolancoe/mr-coe"
-        },
-        "cover": "images/cover.png"
+        }
     }
+
     return render(request, "album_release.html", context)
 
 def get_client_ip(request):
