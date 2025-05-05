@@ -32,8 +32,7 @@
             background-size: cover;
             z-index: -3;
         }
-
-        /* Make video fill screen and sit behind content */
+    
         .bg-video {
             position: fixed;
             top: 0; left: 0;
@@ -42,22 +41,21 @@
             object-fit: cover;
             z-index: -1;
         }
-
+    
         .overlay-content {
             position: relative;
             z-index: 2;
         }
-
-        /* Optional dark overlay */
+    
         .overlay {
             position: fixed;
             top: 0; left: 0;
             width: 100vw;
             height: 100vh;
-            background: rgba(0, 0, 0, 0.5); /* semi-transparent */
+            background: rgba(0, 0, 0, 0.5);
             z-index: 1;
         }
-
+    
         .custom-player {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.2);
@@ -66,66 +64,87 @@
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
             transition: background 0.3s ease, box-shadow 0.3s ease;
         }
-
+    
         .custom-player:hover {
             background: rgba(255, 255, 255, 0.1);
             box-shadow: 0 8px 28px rgba(0, 0, 0, 0.5);
         }
-
+    
         .play-btn i {
             font-size: 16px;
             transition: transform 0.2s ease;
         }
-
+    
         .play-btn:hover i {
             transform: scale(1.2);
         }
-
-        .form-range {
+    
+        /* 🎯 Range Input Styling (cross-browser + iOS-safe) */
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
             height: 5px;
-            background-color: rgba(255, 255, 255, 0.3);
-            border-radius: 2px;
-            appearance: none;
-            transition: background-color 0.2s ease;
+            background: transparent;
+            cursor: pointer;
         }
-
-        .form-range::-webkit-slider-thumb,
-        .form-range::-moz-range-thumb {
+    
+        /* WebKit track */
+        input[type="range"]::-webkit-slider-runnable-track {
+            height: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+        }
+    
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 14px;
+            width: 14px;
+            border-radius: 50%;
+            background: #0dcaf0;
+            border: 2px solid white;
+            margin-top: -4.5px; /* vertical alignment */
+            box-shadow: 0 0 5px #0dcaf0;
+        }
+    
+        /* Firefox track */
+        input[type="range"]::-moz-range-track {
+            height: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+        }
+    
+        input[type="range"]::-moz-range-thumb {
             height: 14px;
             width: 14px;
             border-radius: 50%;
             background: #0dcaf0;
             border: 2px solid white;
             box-shadow: 0 0 5px #0dcaf0;
-            cursor: pointer;
         }
-
-        .form-range::-webkit-slider-runnable-track {
-            background: rgba(255, 255, 255, 0.15);
-        }
-
+    
+        /* Track Row Hover */
         .track-row {
             transition: background 0.3s ease, transform 0.2s ease;
             cursor: pointer;
         }
-        
+    
         .track-row:hover {
             background: rgba(255, 255, 255, 0.05);
             transform: scale(1.01);
         }
-
+    
         .track-row.bg-secondary {
             background: rgba(255, 255, 255, 0.1);
             border-radius: 0.5rem;
             padding: 0.5rem;
         }
-
+    
         .card-body a i:hover {
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
             transform: scale(1.1);
             transition: all 0.2s ease-in-out;
         }
-
+    
     </style>
 
     {% block head %}{% endblock %}
