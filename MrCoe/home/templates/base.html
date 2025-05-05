@@ -63,34 +63,40 @@
             padding: 1rem;
             max-width: 500px;
             margin: 2rem auto;
-          }
+        }
       
-          .play-btn i {
+        .play-btn i {
             font-size: 20px;
-          }
-      
-          input[type="range"] {
+        }
+    
+        input[type="range"] {
             width: 100%;
             background: rgba(255, 255, 255, 0.3);
             height: 5px;
-          }
-      
-          input[type="range"]::-webkit-slider-thumb {
+        }
+    
+        input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
             height: 14px;
             width: 14px;
             border-radius: 50%;
             background: #0dcaf0;
             border: 2px solid white;
-          }
-      
-          input[type="range"]::-moz-range-thumb {
+        }
+    
+        input[type="range"]::-moz-range-thumb {
             height: 14px;
             width: 14px;
             border-radius: 50%;
             background: #0dcaf0;
             border: 2px solid white;
-          }
+        }
+
+        .track-row.selected {
+            background-color: rgba(255, 255, 255, 0.15) !important;
+            border-radius: 0.5rem;
+            transition: background-color 0.2s ease;
+        }
     
     </style>
 
@@ -169,8 +175,8 @@
                         isPlaying = true;
                         icon.classList.replace('fa-play', 'fa-pause');
         
-                        document.querySelectorAll('.track-row').forEach(r => r.classList.remove('bg-secondary'));
-                        row.classList.add('bg-secondary'); // visually indicate selected track
+                        document.querySelectorAll('.track-row').forEach(r => r.classList.remove('selected'));
+                        row.classList.add('selected');
                     }
                 });
             });
