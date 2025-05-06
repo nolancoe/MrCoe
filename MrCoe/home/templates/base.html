@@ -79,6 +79,7 @@
             width: 100%;
             background: rgba(255, 255, 255, 0.3);
             height: 5px;
+            position: relative;
         }
     
         input[type="range"]::-webkit-slider-thumb {
@@ -109,6 +110,16 @@
             0 8px 20px rgba(0, 0, 0, 0.4),     /* primary shadow */
             0 4px 6px rgba(0, 0, 0, 0.3),       /* soft inner */
             inset 0 0 10px rgba(255, 255, 255, 0.05); /* subtle glow */
+        }
+
+        input[type="range"]::-webkit-slider-runnable-track {
+            background: linear-gradient(to right, #0dcaf0 0%, #0dcaf0 var(--value), rgba(255, 255, 255, 0.3) var(--value), rgba(255, 255, 255, 0.3) 100%);
+        }
+        input[type="range"]::-moz-range-track {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        input[type="range"]::-moz-range-progress {
+            background: #0dcaf0;
         }
     
     </style>
@@ -173,49 +184,57 @@
             const icon = playBtn.querySelector('i');
             const range = document.getElementById('global-progress');
             const time = document.getElementById('global-time');
+            const currentTrackTitleElement = document.getElementById('current-track-title');
             let currentTrackSrc = '';
             let trackElements = Array.from(document.querySelectorAll('.track-row'));
             let currentTrackIndex = -1;
             let isPlaying = false;
         
-
             function loadAndPlayTrack(index) {
                 if (index < 0 || index >= trackElements.length) return;
-            
                 const row = trackElements[index];
                 const newSrc = row.getAttribute('data-src');
-            
+                const fullTitle = row.querySelector('span').textContent.trim();
+                const title = fullTitle.replace(/^\d+\.\s*/, ''); // Remove "1. " prefix
                 audio.src = newSrc;
                 currentTrackSrc = newSrc;
                 audio.play();
+                currentTrackTitleElement.textContent = title;
                 isPlaying = true;
                 icon.classList.replace('fa-play', 'fa-pause');
-            
-                // UI update
                 trackElements.forEach(r => r.classList.remove('selected'));
                 row.classList.add('selected');
             }
-
-
+        
+            function resetPlayer() {
+                currentTrackSrc = '';
+                currentTrackIndex = -1;
+                isPlaying = false;
+                icon.classList.replace('fa-pause', 'fa-play');
+                audio.src = '';
+                trackElements.forEach(r => r.classList.remove('selected'));
+                currentTrackTitleElement.textContent = 'Mr. Coe'; // Reset to album title
+            }
+        
             document.getElementById('next-btn').addEventListener('click', () => {
                 if (currentTrackIndex < trackElements.length - 1) {
                     currentTrackIndex++;
                     loadAndPlayTrack(currentTrackIndex);
                 }
             });
-            
+        
             document.getElementById('prev-btn').addEventListener('click', () => {
                 if (currentTrackIndex > 0) {
                     currentTrackIndex--;
                     loadAndPlayTrack(currentTrackIndex);
                 }
             });
-
+        
             // Track selection logic
             trackElements.forEach((row, index) => {
                 row.addEventListener('click', () => {
                     const newSrc = row.getAttribute('data-src');
-
+        
                     if (newSrc !== currentTrackSrc) {
                         currentTrackIndex = index;
                         loadAndPlayTrack(currentTrackIndex);
@@ -246,6 +265,7 @@
                 const duration = Math.floor(audio.duration || 0);
                 range.max = duration;
                 range.value = current;
+                range.style.setProperty('--value', `${(current / duration) * 100}%`);
                 time.textContent = formatTime(current);
             });
         
@@ -256,10 +276,12 @@
             audio.addEventListener('ended', () => {
                 icon.classList.replace('fa-pause', 'fa-play');
                 isPlaying = false;
-            
+        
                 if (currentTrackIndex < trackElements.length - 1) {
                     currentTrackIndex++;
                     loadAndPlayTrack(currentTrackIndex);
+                } else {
+                    resetPlayer(); // Reset when no next track is available
                 }
             });
         
