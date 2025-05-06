@@ -174,22 +174,51 @@
             const range = document.getElementById('global-progress');
             const time = document.getElementById('global-time');
             let currentTrackSrc = '';
+            let trackElements = Array.from(document.querySelectorAll('.track-row'));
+            let currentTrackIndex = -1;
             let isPlaying = false;
         
+
+            function loadAndPlayTrack(index) {
+                if (index < 0 || index >= trackElements.length) return;
+            
+                const row = trackElements[index];
+                const newSrc = row.getAttribute('data-src');
+            
+                audio.src = newSrc;
+                currentTrackSrc = newSrc;
+                audio.play();
+                isPlaying = true;
+                icon.classList.replace('fa-play', 'fa-pause');
+            
+                // UI update
+                trackElements.forEach(r => r.classList.remove('selected'));
+                row.classList.add('selected');
+            }
+
+
+            document.getElementById('next-btn').addEventListener('click', () => {
+                if (currentTrackIndex < trackElements.length - 1) {
+                    currentTrackIndex++;
+                    loadAndPlayTrack(currentTrackIndex);
+                }
+            });
+            
+            document.getElementById('prev-btn').addEventListener('click', () => {
+                if (currentTrackIndex > 0) {
+                    currentTrackIndex--;
+                    loadAndPlayTrack(currentTrackIndex);
+                }
+            });
+
             // Track selection logic
-            document.querySelectorAll('.track-row').forEach(row => {
+            trackElements.forEach((row, index) => {
                 row.addEventListener('click', () => {
                     const newSrc = row.getAttribute('data-src');
-        
+
                     if (newSrc !== currentTrackSrc) {
-                        audio.src = newSrc;
-                        currentTrackSrc = newSrc;
-                        audio.play();
-                        isPlaying = true;
-                        icon.classList.replace('fa-play', 'fa-pause');
-        
-                        document.querySelectorAll('.track-row').forEach(r => r.classList.remove('selected'));
-                        row.classList.add('selected');
+                        currentTrackIndex = index;
+                        loadAndPlayTrack(currentTrackIndex);
                     }
                 });
             });
@@ -223,6 +252,11 @@
             audio.addEventListener('ended', () => {
                 icon.classList.replace('fa-pause', 'fa-play');
                 isPlaying = false;
+            
+                if (currentTrackIndex < trackElements.length - 1) {
+                    currentTrackIndex++;
+                    loadAndPlayTrack(currentTrackIndex);
+                }
             });
         
             function formatTime(seconds) {

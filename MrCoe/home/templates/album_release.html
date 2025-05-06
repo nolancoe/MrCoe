@@ -58,9 +58,20 @@
 
       <!-- 🎧 Global Audio Player -->
       <div id="global-player" class="custom-player d-flex align-items-center gap-3 px-3 py-2 mb-4 justify-content-center">
+        
+        <button id="prev-btn" class="btn btn-outline-light btn-sm">
+          <i class="fas fa-backward"></i>
+        </button>
+        
         <button id="global-play-btn" class="btn btn-sm btn-outline-light d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
             <i class="fas fa-play"></i>
         </button>
+        
+          
+        <button id="next-btn" class="btn btn-outline-light btn-sm">
+            <i class="fas fa-forward"></i>
+        </button>
+        
         <input type="range" id="global-progress" class="form-range flex-grow-1 mx-2" value="0" min="0" step="1">
         <span id="global-time" class="text-light small" style="min-width: 45px;">0:00</span>
       </div>
