@@ -224,7 +224,11 @@
             });
         
             playBtn.addEventListener('click', () => {
-                if (!currentTrackSrc) return;
+                if (!currentTrackSrc && trackElements.length > 0) {
+                    currentTrackIndex = 0;
+                    loadAndPlayTrack(currentTrackIndex);
+                    return;
+                }
         
                 if (audio.paused) {
                     audio.play();
