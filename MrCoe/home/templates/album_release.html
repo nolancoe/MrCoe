@@ -90,9 +90,12 @@
       {% for track in tracks %}
         <div class="track-row text-start mb-3 px-3 py-2 d-flex align-items-center justify-content-between" data-src="{% static track.file %}">
           <span class="text-light fw-semibold">{{ forloop.counter }}. {{ track.title }}</span>
-          <i class="fas fa-music text-secondary"></i>
+          <a href="{% static track.file %}" download="{{ track.title }}.mp3" class="text-secondary" title="Download {{ track.title }}">
+            <i class="fas fa-download"></i>
+          </a>
         </div>
       {% endfor %}
+
 
     </div>
   </div>
